@@ -1,6 +1,14 @@
 name: CI-WORKFLOW
 on: push
 
+
+permissions: 
+   security-events: write
+   issues: write
+   actions: read
+   contents: read
+
+   
 jobs:
   buil-test:
     runs-on: ubuntu-22.04
