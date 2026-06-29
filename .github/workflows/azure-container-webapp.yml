@@ -1,20 +1,33 @@
-name: CI-WORKFLOW
-on: push
+name: Security Pipeline
 
+on:
+  push:
+    branches:
+      - main
+      - master
 
-permissions: 
-   security-events: write
-   issues: write
-   actions: read
-   contents: read
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  issues: write
 
-   
 jobs:
-  buil-test:
-    runs-on: ubuntu-22.04
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
