@@ -1,38 +1,62 @@
-name: project2 
+name: Secure DevSecOps Pipeline
+
 on:
   push:
+    branches:
+      - master
+
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+  security-events: write
+  id-token: write
+  packages: write
+
 jobs:
-  build:
+  security_audit:
+    name: CodeQL SAST Scan
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: actions
 
-      - name: Run Tests
-        run: npm test
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
 
-  deploy:
+  build_and_package:
+    name: Build Docker Image
+    needs: security_audit
     runs-on: ubuntu-latest
-    needs: [build, test]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master' && needs.test.result == 'success'  
-    
+
     steps:
-      - name: Deploy Application
-        run: echo "Deploying to production server..."
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.10.0
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: rahamshaik
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Export Container
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: rahamshaik/gabr1:latest
+
+          cache-from: type=registry,ref=rahamshaik/gabr1:latest
+          cache-to: type=registry,ref=rahamshaik/gabr1:buildcache,mode=max
+
