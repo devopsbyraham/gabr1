@@ -1,26 +1,58 @@
-name: project2
+name:  NodeJs
+
 on:
   push:
-jobs:
+    branches: master
+
+
+permissions: 
+   security-events: write
+   issues: write
+   actions: read
+   contents: read
+
+jobs: 
   build:
-    runs-on: [self-hosted, r1]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    runs-on: ${{ matrix.os }}
 
-      - name: Setup NodeJS
-        uses: actions/setup-node@v3
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [18, 20, 22]
+        exclude:
+          - os: windows-latest
+            node-version: 22
+
+    steps: 
+      - name:  Checkout Code
+        uses:  actions/checkout@v7
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: '24'
 
-      - name: Install Dependencies
+      - name: Build
         run: npm install
 
-      - name: Build Application
-        run: npm run build
-
-      - name: Run Tests
+      - name: test
         run: npm test
 
-      - name: Deploy Application
-        run: echo "Deploying to production server..."
+
+      - name: Cache Dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key:  ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          
+      - name: Artifact upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifact-1
+          path: |
+             package*
+
+      - name: Deploy
+        run: echo "code is deployed"
+
+
