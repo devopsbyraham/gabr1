@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: test
-        run: ech0 "code is tested"
+        run: echo "code is tested"
 
       - name: deploy
         run: echo "code is deployed"
