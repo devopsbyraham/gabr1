@@ -17,4 +17,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Execute Secure Pipeline Action
-        uses: ./.github/workflows/securepipeline/action.yml
+        uses: devopsbyraham/Zomato-Project/.github/workflows/main.yml@master
