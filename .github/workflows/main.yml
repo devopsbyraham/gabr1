@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-slim
+    runs-on: self-hosted
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -23,17 +23,9 @@ jobs:
       - name: Build
         run: npm install
 
-  test:
-    runs-on: ubuntu-slim
-    needs: build
-    steps:
       - name: test
         run: echo "code is tested"
 
-  deploy:
-    runs-on: ubuntu-slim
-    needs: test
-    steps:
       - name: deploy
         run: echo "code is deployed"
 
