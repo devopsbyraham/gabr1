@@ -1,0 +1,17 @@
+name: Secure DevSecOps Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+ 
+jobs:
+  build:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Execute Secure Pipeline Action
+        uses: ./.github/actions/secure-pipeline
