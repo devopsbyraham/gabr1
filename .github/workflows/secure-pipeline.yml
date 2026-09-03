@@ -6,11 +6,14 @@ on:
       - master
       - main
   workflow_dispatch:
- 
+
 jobs:
   build:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
-    
-  call-secure-workflow:
-     uses: devopsbyraham/Zomato-Project/.github/workflows/main.yml@master
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Secure DevSecOps Pipeline Steps (composite action)
+        uses: ./.github/workflows/securepipeline/action.yml
