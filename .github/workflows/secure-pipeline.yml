@@ -12,9 +12,5 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Execute Secure Pipeline Action
-        uses: devopsbyraham/Zomato-Project/.github/workflows/main.yml@master
+  call-secure-workflow:
+     uses: devopsbyraham/Zomato-Project/.github/workflows/main.yml@master
