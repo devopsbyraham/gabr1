@@ -17,4 +17,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Execute Secure Pipeline Action
-        uses: ./.github/workflows/secure-pipeline/action.yml
+        uses: ./.github/workflows/securepipeline/action.yml
