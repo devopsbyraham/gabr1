@@ -19,14 +19,8 @@ jobs:
       - name: Install Dependencies
         run: echo "code build is done"
         
-  test:
-    runs-on: ubuntu-slim
-    steps:
       - name: Test
         run: echo "code is tested!"
 
-  deploy:
-    runs-on: ubuntu-slim
-    steps:
       - name: Deploy
         run: echo "my code is deployed"
