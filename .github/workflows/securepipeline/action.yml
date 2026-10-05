@@ -23,3 +23,9 @@ runs:
     - name: deploy
       run: echo "code is deployed"
       shell: bash
+
+    - name: Rollback 
+      if: failure() 
+      run: echo "rollback is done"
+
+      
