@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_package:
+  build:
     name: BUILD-JOB
     runs-on: ubuntu-slim
 
@@ -18,9 +18,15 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
+        
+  test:
+    runs-on: ubuntu-slim
+    steps:
       - name: Test
         run: echo "code is tested!"
 
+  deploy:
+    runs-on: ubuntu-slim
+    steps:
       - name: Deploy
         run: echo "my code is deployed"
