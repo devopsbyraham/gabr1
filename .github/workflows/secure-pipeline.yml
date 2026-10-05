@@ -23,4 +23,8 @@ jobs:
         run: echo "code is tested!"
 
       - name: Deploy
-        run: echo "my code is deployed"
+        run: echo "my code is deployed
+
+      - name: Rollback
+        if: failure()
+        echo: "rollback is done"
