@@ -1,0 +1,22 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Initialize Environment
+        id: setup
+        uses: ./.github/actions/setup-node-project/action.yml
+        with:
+          node-version: '22'
+
+      - name: Run Tests
+        run: npm test
+        shell: bash
