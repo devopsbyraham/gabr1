@@ -27,4 +27,4 @@ jobs:
 
       - name: Rollback
         if: failure()
-        echo: "rollback is done"
+        run: echo "rollback is done"
